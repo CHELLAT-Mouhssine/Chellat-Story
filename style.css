@@ -1,52 +1,49 @@
-:root { --green: #2ecc71; --white: #ffffff; --bg: #fcfcfc; }
-body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); direction: rtl; overflow-x: hidden; }
+:root { --main: #2ecc71; --bg: #ffffff; }
+body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #fdfdfd; direction: rtl; }
 
-/* الهيدر */
-.navbar { background: var(--green); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-.brand-logo { font-size: 18px; font-weight: bold; margin: 0; }
-.menu-btn { font-size: 22px; cursor: pointer; }
+.app-bar { background: var(--main); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+.main-logo { font-size: 19px; font-weight: bold; margin: 0; }
 
-/* البحث */
-.search-section { background: var(--green); padding: 0 15px 15px; }
-.search-bar { background: white; border-radius: 8px; padding: 10px 15px; display: flex; align-items: center; }
-.search-bar input { border: none; width: 100%; outline: none; margin-right: 10px; font-size: 14px; text-align: right; }
+.search-container { background: var(--main); padding: 0 15px 15px; }
+.search-box { background: white; border-radius: 10px; padding: 10px 15px; display: flex; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.search-box input { border: none; width: 100%; outline: none; margin-right: 10px; font-size: 14px; }
 
-/* السلايدر المتوسط (مثل APKPure) */
-.promo-container { padding: 15px; }
-.slider-item {
+.hero-slider { padding: 15px; }
+.slide-item {
     background: linear-gradient(135deg, #2ecc71, #27ae60);
-    height: 110px; border-radius: 12px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: white; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
-}
-.slider-item i { font-size: 28px; margin-bottom: 5px; }
-.slider-item h2 { font-size: 16px; margin: 0; }
-.slider-item p { font-size: 11px; margin: 2px 0 0; opacity: 0.9; }
-
-/* شبكة التطبيقات (النسق الجميل) */
-.apps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 10px; padding: 15px; }
-.card { text-decoration: none; color: #333; display: flex; flex-direction: column; align-items: center; }
-
-/* حل مشكلة الأيقونات - السر في الـ padding والـ contain */
-.icon {
-    width: 72px; height: 72px; 
-    border-radius: 18px; /* مثل Play Store بالضبط */
-    background: white; 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    height: 110px; border-radius: 15px;
     display: flex; align-items: center; justify-content: center;
-    padding: 10px; /* يمنع اللوجو من ملامسة الحواف ويجعله جميلاً */
+    color: white; box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+}
+.slide-info { text-align: center; }
+.slide-info i { font-size: 30px; }
+.slide-info h3 { margin: 5px 0 0; font-size: 17px; }
+.slide-info p { margin: 0; font-size: 11px; opacity: 0.9; }
+
+.apps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 12px; padding: 15px; }
+.app-card { text-decoration: none; color: #333; display: flex; flex-direction: column; align-items: center; }
+
+/* تصميم الأيقونة الاحترافي */
+.img-box {
+    width: 75px; height: 75px; 
+    border-radius: 18px; /* مثل Play Store */
+    background: white; 
+    display: flex; align-items: center; justify-content: center; 
+    overflow: hidden; 
+    padding: 12px; /* مساحة تضمن توازن اللوجو */
     box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     border: 1px solid #f0f0f0;
 }
-.icon img { width: 100%; height: 100%; object-fit: contain; } /* يحافظ على أبعاد اللوجو */
+.img-box img { width: 100%; height: 100%; object-fit: contain; }
 
-.card h3 { font-size: 11px; margin-top: 10px; font-weight: 600; text-align: center; }
+.app-card h3 { font-size: 11px; margin-top: 10px; font-weight: 600; color: #444; text-align: center; width: 85px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* القائمة الجانبية المتقدمة */
-.side-drawer { position: fixed; right: -280px; top: 0; width: 280px; height: 100%; background: white; z-index: 2001; transition: 0.3s; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
-.side-drawer.active { right: 0; }
-.drawer-header { background: var(--green); color: white; padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; }
-.menu-link { display: block; padding: 15px 20px; border-bottom: 1px solid #eee; text-decoration: none; color: #333; font-weight: 500; }
-.about-box { padding: 20px; color: #777; font-size: 13px; line-height: 1.6; }
-#overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: none; z-index: 2000; }
-#overlay.visible { display: block; }
+/* القائمة الجانبية */
+.drawer { position: fixed; right: -280px; top: 0; width: 280px; height: 100%; background: white; z-index: 2001; transition: 0.3s; }
+.drawer.open { right: 0; }
+.drawer-header { background: var(--main); color: white; padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; }
+.menu-item { display: block; padding: 15px 20px; border-bottom: 1px solid #f0f0f0; text-decoration: none; color: #444; }
+.about-section { padding: 20px; font-size: 13px; color: #777; line-height: 1.6; }
+#overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 2000; }
+#overlay.show { display: block; }
