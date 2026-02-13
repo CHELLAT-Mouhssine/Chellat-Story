@@ -40,4 +40,88 @@
         .download-btn { background: var(--primary-blue); color: white; text-decoration: none; padding: 7px 0; border-radius: 10px; font-size: 10px; display: block; }
 
         .apkpure-footer { background: var(--card-bg); padding: 40px 20px; border-top: 1px solid #eee; margin-top: 30px; text-align: center; }
-        .footer-logo { font-size: 1.5rem; font-weight: bold; color: var(--accent-green); display: block; margin
+        .footer-logo { font-size: 1.5rem; font-weight: bold; color: var(--accent-green); display: block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="menu-overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="side-menu" id="sideMenu">
+        <h3 style="color:var(--primary-blue)">ᏨᎻᎬᏞᎯᎿ ᏚᎿᏫᎡᎬ</h3>
+        <div class="menu-item"><i class="fas fa-robot"></i> تطبيقات Android</div>
+        <div class="menu-item"><i class="fas fa-gamepad"></i> ألعاب Jeux</div>
+        <div class="menu-item"><i class="fas fa-star"></i> اختيار المحرر</div>
+        <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+        <div class="menu-item"><i class="fas fa-info-circle"></i> نبذة عن المتجر:</div>
+        <div class="about-box">
+            مرحباً بك في <b>ᏨᎻᎬᏞᎯᎿ ᏚᎿᏫᎡᎬ</b>، وجهتك الأولى لتحميل أحدث التطبيقات والألعاب المعدلة بأمان وسرعة. نوفر لك تجربة فريدة مع تحديثات يومية وروابط مباشرة لضمان أفضل أداء لهاتفك.
+        </div>
+        <a href="mailto:m.chellat@gmail.com" class="menu-item"><i class="fas fa-envelope"></i> تواصل معنا (Gmail)</a>
+    </div>
+
+    <header>
+        <span class="logo">ᏨᎻᎬᏞᎯᎿ ᏚᎿᏫᎡᎬ 📡</span>
+        <div style="display:flex; gap:18px">
+            <i class="fas fa-moon" onclick="toggleDarkMode()" style="color:#f1c40f"></i>
+            <i class="fas fa-bars" onclick="toggleMenu()"></i>
+        </div>
+    </header>
+
+    <div class="slider-container">
+        <div class="slides" id="sliderTrack"></div>
+    </div>
+
+    <div class="search-area">
+        <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن تطبيقات..." onkeyup="searchApp()">
+    </div>
+
+    <div class="app-grid" id="appGrid"></div>
+
+    <div class="apkpure-footer">
+        <span class="footer-logo">ᏨᎻᎬᏞᎯᎿ ᏚᎿᏫᎡᎬ</span>
+        <p style="font-size:12px; color:#777;">Discover what you want easier, faster and safer.</p>
+        <div style="font-size:10px; color:#999; margin-top:10px;">Copyright © 2014-2026 CHELLAT Store</div>
+    </div>
+
+    <script>
+        // مصفوفة التطبيقات (بعد حذف الثلاثة تطبيقات)
+        const apps = [
+            {name: "Canva", img: "Canva.jpg"}, {name: "Chrome", img: "chrome.jpg"}, 
+            {name: "Discord", img: "Discord - Talk...jpg"}, {name: "Facebook Lite", img: "facebook_lite.jpg"}, 
+            {name: "Fiverr", img: "Fiverr - Freelance Service.jpg"}, {name: "Free Fire Max", img: "freefire_max.jpg"}, 
+            {name: "Free Fire", img: "freefire.jpg"}, {name: "Google Translate", img: "Google Translate.jpg"}, 
+            {name: "Assistant", img: "google_assistant.jpg"}, {name: "Google Photos", img: "google_photos.jpg"}, 
+            {name: "Play Store", img: "google_play.jpg"}, {name: "Gemini", img: "Google-Gemini.jpg"}, 
+            {name: "ChatGPT", img: "hatgpt.jpg"}, {name: "Instagram Lite", img: "instagram_lite.jpg"}, 
+            {name: "Instagram", img: "Instagram.jpg"}, {name: "Kooora", img: "Kooora.jpg"}, 
+            {name: "Lightroom", img: "Lightroom Photo & Video Editor.jpg"}, {name: "Messenger", img: "Messenger.jpg"}, 
+            {name: "Pinterest", img: "Pinterest.jpg"}, {name: "PUBG Mobile", img: "pubg_mobile.jpg"}, 
+            {name: "Salaat First", img: "salaat_first.jpg"}, {name: "Shopify", img: "Shopify.jpg"}, 
+            {name: "Snapchat", img: "snapchat.jpg"}, {name: "Spotify", img: "Spotify.jpg"}, 
+            {name: "Telegram", img: "Telegram.jpg"}, {name: "Temu", img: "Temu.jpg"}, 
+            {name: "Threads", img: "Threads.jpg"}, {name: "TikTok Lite", img: "tiktok_lite.jpg"}, 
+            {name: "TikTok", img: "tiktok.jpg"}, {name: "WhatsApp", img: "whatsapp.jpg"}, 
+            {name: "YouTube", img: "YouTube.jpg"}
+        ];
+
+        const grid = document.getElementById('appGrid');
+        const slider = document.getElementById('sliderTrack');
+
+        apps.forEach(app => {
+            grid.innerHTML += `<div class="app-card" data-name="${app.name.toLowerCase()}">
+                <img src="${encodeURI(app.img)}" alt="${app.name}">
+                <h3>${app.name}</h3>
+                <a href="#" class="download-btn">تحميل</a>
+            </div>`;
+            slider.innerHTML += `<div class="slide"><img src="${encodeURI(app.img)}"></div>`;
+        });
+
+        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
+        function searchApp() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('app-card');
+            for (let card of cards) { card.style.display = card.getAttribute('data-name').includes(input) ? "" : "none"; }
+        }
+    </script>
+</body>
+</html>
