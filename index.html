@@ -13,17 +13,11 @@
         header { background: var(--card-bg); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
         .logo { font-size: 1.1rem; font-weight: bold; }
 
-        .side-menu { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: var(--card-bg); z-index: 2000; transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.1); padding: 20px; text-align: right; }
-        .side-menu.active { right: 0; }
-        .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
-        .menu-overlay.active { display: block; }
-        .menu-item { display: flex; align-items: center; padding: 12px; border-radius: 10px; margin-bottom: 5px; cursor: pointer; color: var(--text-color); text-decoration: none; font-size: 14px; }
-        .menu-item i { margin-left: 15px; color: var(--accent-green); }
-
-        .slider-container { width: 92%; height: 160px; margin: 15px auto; border-radius: 20px; overflow: hidden; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff; }
-        .slides { display: flex; height: 100%; animation: steadySlide 90s infinite linear; }
-        .slide { flex-shrink: 0; width: 100%; display: flex; justify-content: center; align-items: center; }
-        .slide img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+        /* تعديل سرعة السلايدر وحجم الفيديو */
+        .slider-container { width: 92%; height: 180px; margin: 15px auto; border-radius: 20px; overflow: hidden; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #000; }
+        .slides { display: flex; height: 100%; animation: steadySlide 40s infinite linear; } /* تم تسريع الحركة من 90 ثانية إلى 40 */
+        .slide { flex-shrink: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        .slide img, .slide video { height: 100%; width: 100%; object-fit: cover; }
         @keyframes steadySlide { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
 
         .search-area { padding: 10px 20px; }
@@ -34,15 +28,23 @@
         .app-card h3 { font-size: 10px; margin: 5px 0; color: var(--text-color); height: 14px; overflow: hidden; }
         .download-btn { background: var(--primary-blue); color: white; padding: 7px 0; border-radius: 10px; font-size: 10px; cursor: pointer; }
 
+        /* صفحة التحميل */
         #downloadPage { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 3000; display: none; flex-direction: column; align-items: center; padding-top: 60px; text-align: center; }
         .dl-icon { width: 100px; height: 100px; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .dl-timer-container { width: 80%; background: #ddd; height: 8px; border-radius: 4px; margin: 25px 0; overflow: hidden; }
         .dl-timer-bar { height: 100%; background: var(--accent-green); width: 0%; transition: 0.1s linear; }
         .final-btn { display: none; background: var(--accent-green); color: white; padding: 15px 35px; border-radius: 30px; text-decoration: none; font-weight: bold; }
 
+        /* القائمة الجانبية مع الروابط الصحيحة */
+        .side-menu { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: var(--card-bg); z-index: 2000; transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.1); padding: 20px; text-align: right; }
+        .side-menu.active { right: 0; }
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
+        .menu-overlay.active { display: block; }
+        .menu-item { display: flex; align-items: center; padding: 12px; border-radius: 10px; margin-bottom: 5px; cursor: pointer; color: var(--text-color); text-decoration: none; font-size: 14px; }
+        .menu-item i { margin-left: 15px; color: var(--accent-green); }
+
         .footer { padding: 30px; text-align: center; font-size: 12px; color: #999; }
         .social-icons a { margin: 0 10px; font-size: 24px; color: var(--text-color); transition: 0.3s; }
-        .social-icons a:hover { color: var(--accent-green); }
     </style>
 </head>
 <body>
@@ -122,10 +124,13 @@
             grid.innerHTML = "";
             slider.innerHTML = "";
             
-            // إضافة الإعلان في السلايدر باستخدام رابط مباشر لضمان الظهور
-            slider.innerHTML += `<div class="slide" onclick="window.location.href='https://google.com'" style="cursor:pointer">
-                <img src="https://i.ibb.co/LzNfX6X/ad-banner.jpg" style="border-radius:15px; border:2px solid var(--accent-green); width: 90%; height: 90%; object-fit: cover;">
-            </div>`;
+            // إضافة فيديو إعلاني في أول السلايدر (يعمل تلقائياً صامت)
+            slider.innerHTML += `
+                <div class="slide" onclick="window.location.href='https://google.com'">
+                    <video autoplay muted loop playsinline>
+                        <source src="https://v1.padicdn.com/uploads/videos/2024/02/promo.mp4" type="video/mp4">
+                    </video>
+                </div>`;
 
             apps.forEach(app => {
                 grid.innerHTML += `<div class="app-card" data-name="${app.name.toLowerCase()}">
@@ -143,15 +148,13 @@
             document.getElementById('downloadPage').style.display = 'flex';
             let bar = document.getElementById('tBar');
             let btn = document.getElementById('finalLink');
-            let status = document.getElementById('timerStatus');
             let w = 0;
             bar.style.width = '0%';
             btn.style.display = 'none';
-            status.innerText = "يرجى الانتظار 5 ثوانٍ...";
             let timer = setInterval(() => {
                 w += 2;
                 bar.style.width = w + '%';
-                if(w >= 100) { clearInterval(timer); status.innerText = "الرابط جاهز!"; btn.style.display = 'inline-block'; }
+                if(w >= 100) { clearInterval(timer); btn.style.display = 'inline-block'; }
             }, 100);
         }
 
