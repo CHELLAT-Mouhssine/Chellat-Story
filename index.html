@@ -8,7 +8,7 @@
     <style>
         :root { --bg-color: #f4f7f6; --card-bg: #ffffff; --text-color: #333; --primary-blue: #3b82f6; --accent-green: #78d694; }
         .dark-mode { --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #e0e0e0; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 20px; transition: 0.3s; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 20px; transition: 0.3s; overflow-x: hidden; }
         
         header { background: var(--card-bg); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
         .logo { font-size: 1.1rem; font-weight: bold; }
@@ -20,58 +20,53 @@
         .menu-overlay.active { display: block; }
         .menu-item { display: flex; align-items: center; padding: 12px; border-radius: 10px; margin-bottom: 5px; cursor: pointer; color: var(--text-color); text-decoration: none; font-size: 14px; }
         .menu-item i { margin-left: 15px; color: var(--accent-green); }
-        .about-box { background: rgba(120, 214, 148, 0.1); padding: 15px; border-radius: 12px; font-size: 13px; line-height: 1.6; margin-top: 10px; color: var(--text-color); border-right: 4px solid var(--accent-green); }
 
         /* السلايدر */
-        .slider-container { width: 92%; height: 160px; margin: 15px auto; border-radius: 20px; overflow: hidden; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .slides { display: flex; width: 3100%; height: 100%; animation: steadySlide 75s infinite linear; }
-        .slide { width: 100%; flex-shrink: 0; display: flex; justify-content: center; align-items: center; background: #fff; }
+        .slider-container { width: 92%; height: 160px; margin: 15px auto; border-radius: 20px; overflow: hidden; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff; }
+        .slides { display: flex; height: 100%; animation: steadySlide 80s infinite linear; }
+        .slide { flex-shrink: 0; width: 100%; display: flex; justify-content: center; align-items: center; }
         .slide img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
         @keyframes steadySlide { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
 
+        /* البحث والشبكة */
         .search-area { padding: 10px 20px; }
         .search-box { width: 100%; padding: 12px; border: none; border-radius: 15px; background: var(--card-bg); color: var(--text-color); box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; outline: none; }
-
-        /* شبكة التطبيقات */
-        .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 15px; }
+        .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 15px; min-height: 200px; }
         .app-card { background: var(--card-bg); border-radius: 18px; padding: 12px 8px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
         .app-card img { width: 65px; height: 65px; border-radius: 15px; object-fit: cover; margin-bottom: 8px; }
         .app-card h3 { font-size: 10px; margin: 5px 0; color: var(--text-color); height: 14px; overflow: hidden; }
-        .download-btn { background: var(--primary-blue); color: white; text-decoration: none; padding: 7px 0; border-radius: 10px; font-size: 10px; display: block; cursor: pointer; }
+        .download-btn { background: var(--primary-blue); color: white; padding: 7px 0; border-radius: 10px; font-size: 10px; cursor: pointer; }
 
-        /* صفحة التحميل الاحترافية */
-        #downloadPage { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 3000; display: none; flex-direction: column; align-items: center; padding-top: 50px; text-align: center; }
-        .dl-icon { width: 110px; height: 110px; border-radius: 22px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); margin-bottom: 15px; }
-        .dl-timer-container { width: 80%; background: #ddd; height: 8px; border-radius: 4px; margin: 20px 0; overflow: hidden; }
-        .dl-timer-bar { height: 100%; background: var(--accent-green); width: 0%; }
-        .final-btn { display: none; background: var(--accent-green); color: white; padding: 15px 35px; border-radius: 25px; text-decoration: none; font-weight: bold; margin-top: 10px; box-shadow: 0 4px 12px rgba(120, 214, 148, 0.4); }
+        /* صفحة التحميل */
+        #downloadPage { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 3000; display: none; flex-direction: column; align-items: center; padding-top: 60px; text-align: center; }
+        .dl-icon { width: 100px; height: 100px; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .dl-timer-container { width: 80%; background: #ddd; height: 8px; border-radius: 4px; margin: 25px 0; overflow: hidden; }
+        .dl-timer-bar { height: 100%; background: var(--accent-green); width: 0%; transition: 0.1s linear; }
+        .final-btn { display: none; background: var(--accent-green); color: white; padding: 15px 35px; border-radius: 30px; text-decoration: none; font-weight: bold; }
 
-        .footer { background: var(--card-bg); padding: 30px 20px; text-align: center; border-top: 1px solid #eee; margin-top: 20px; }
+        .footer { padding: 30px; text-align: center; font-size: 12px; color: #999; }
     </style>
 </head>
 <body>
 
     <div id="downloadPage">
-        <i class="fas fa-arrow-right" onclick="closeDownload()" style="position:absolute; top:20px; right:20px; font-size:20px; cursor:pointer;"></i>
+        <i class="fas fa-arrow-left" onclick="closeDownload()" style="position:absolute; top:20px; left:20px; font-size:22px;"></i>
         <img id="dlImg" src="" class="dl-icon">
         <h2 id="dlName">اسم التطبيق</h2>
-        <p style="color:#888; font-size:14px;">يتم الآن فحص الرابط وتجهيز ملف التحميل...</p>
-        
+        <p>يتم تجهيز رابط التحميل الخاص بك...</p>
         <div class="dl-timer-container"><div id="tBar" class="dl-timer-bar"></div></div>
-        <p id="timerStatus" style="font-weight:bold; font-size:13px;">يرجى الانتظار 5 ثوانٍ...</p>
-        
-        <a id="finalLink" href="https://google.com" class="final-btn">تحميل الآن (رابط آمن)</a>
+        <p id="timerStatus">يرجى الانتظار 5 ثوانٍ...</p>
+        <a id="finalLink" href="https://google.com" class="final-btn">اضغط للتحميل</a>
     </div>
 
     <div class="menu-overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="side-menu" id="sideMenu">
-        <h3 style="color:var(--primary-blue)">ᏨᎻᎬᏞᎯᎿ ᏚᎿᏫᎡᎬ</h3>
+        <h3 style="color:var(--primary-blue); margin-bottom:20px;">ᏨᎻᎬᏞᎯᎿ ᏚᎿᏫᎡᎬ</h3>
         <div class="menu-item"><i class="fas fa-robot"></i> تطبيقات Android</div>
         <div class="menu-item"><i class="fas fa-gamepad"></i> ألعاب Jeux</div>
         <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
-        <div class="menu-item"><i class="fas fa-info-circle"></i> نبذة عن المتجر:</div>
-        <div class="about-box">وجهتك الأولى لتحميل أحدث التطبيقات والألعاب المعدلة بأمان وسرعة.</div>
-        <a href="mailto:m.chellat@gmail.com" class="menu-item"><i class="fas fa-envelope"></i> تواصل معنا</a>
+        <div class="menu-item"><i class="fas fa-info-circle"></i> نبذة: متجرنا يوفر أفضل التطبيقات بأمان.</div>
+        <a href="mailto:m.chellat@gmail.com" class="menu-item"><i class="fas fa-envelope"></i> اتصل بنا</a>
     </div>
 
     <header>
@@ -93,8 +88,8 @@
     <div class="app-grid" id="appGrid"></div>
 
     <div class="footer">
-        <span style="font-weight:bold; color:var(--accent-green);">ᏨᎻᎬᏞᎯᎿ ᏚᎿᏫᎡᎬ</span>
-        <p style="font-size:11px; color:#aaa;">Copyright © 2014-2026 CHELLAT Store</p>
+        <b>ᏨᎻᎬᏞᎯᎿ ᏚᎿᏫᎡᎬ</b><br>
+        Copyright © 2014-2026
     </div>
 
     <script>
@@ -120,16 +115,50 @@
         const grid = document.getElementById('appGrid');
         const slider = document.getElementById('sliderTrack');
 
-        // بناء المتجر والسلايدر
-        apps.forEach(app => {
-            grid.innerHTML += `<div class="app-card" data-name="${app.name.toLowerCase()}">
-                <img src="${encodeURI(app.img)}" alt="${app.name}">
-                <h3>${app.name}</h3>
-                <div class="download-btn" onclick="showDownload('${app.name}', '${encodeURI(app.img)}')">تحميل</div>
-            </div>`;
-            slider.innerHTML += `<div class="slide"><img src="${encodeURI(app.img)}"></div>`;
-        });
+        // وظيفة عرض التطبيقات
+        function renderApps() {
+            grid.innerHTML = "";
+            slider.innerHTML = "";
+            apps.forEach(app => {
+                grid.innerHTML += `<div class="app-card" data-name="${app.name.toLowerCase()}">
+                    <img src="${encodeURI(app.img)}" alt="${app.name}">
+                    <h3>${app.name}</h3>
+                    <div class="download-btn" onclick="showDownload('${app.name}', '${encodeURI(app.img)}')">تحميل</div>
+                </div>`;
+                slider.innerHTML += `<div class="slide"><img src="${encodeURI(app.img)}"></div>`;
+            });
+        }
 
         function showDownload(name, img) {
             document.getElementById('dlName').innerText = name;
-            document.getElementById('dlImg').src =
+            document.getElementById('dlImg').src = img;
+            document.getElementById('downloadPage').style.display = 'flex';
+            let bar = document.getElementById('tBar');
+            let btn = document.getElementById('finalLink');
+            let status = document.getElementById('timerStatus');
+            let w = 0;
+            bar.style.width = '0%';
+            btn.style.display = 'none';
+            status.innerText = "يرجى الانتظار 5 ثوانٍ...";
+            let timer = setInterval(() => {
+                w += 2;
+                bar.style.width = w + '%';
+                if(w >= 100) { clearInterval(timer); status.innerText = "الرابط جاهز!"; btn.style.display = 'inline-block'; }
+            }, 100);
+        }
+
+        function closeDownload() { document.getElementById('downloadPage').style.display = 'none'; }
+        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
+        function searchApp() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('app-card');
+            for (let card of cards) { card.style.display = card.getAttribute('data-name').includes(input) ? "" : "none"; }
+        }
+
+        // تشغيل العرض عند فتح الصفحة
+        window.onload = renderApps;
+    </script>
+</body>
+</html>
+
