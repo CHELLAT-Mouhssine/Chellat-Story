@@ -3,126 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر تطبيقات الفيراري | الرواد</title>
+    <title>CHELAT STORE | متجر الفيراري</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* تحسينات السلايدر والقائمة */
-        .slide img, .slide video {
-            width: 100%;
+        /* إصلاح التداخل وضبط القائمة الجانبية */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
             height: 100%;
-            object-fit: contain; /* لضمان ظهور اللوجو كاملاً وبشكل جميل */
-            background: #000;
+            background: #111827;
+            z-index: 1000;
+            transition: 0.4s;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            padding: 20px;
+            color: white;
         }
-        .sidebar-content { padding: 20px; color: white; }
-        .sidebar-content h3 { border-bottom: 1px solid #3b82f6; padding-bottom: 10px; margin-bottom: 15px; }
-        .sidebar-content p { font-size: 0.9rem; line-height: 1.6; color: #cbd5e1; }
-        .menu-items { list-style: none; padding: 0; margin-top: 20px; }
-        .menu-items li { padding: 12px 0; border-bottom: 1px solid #1e293b; cursor: pointer; transition: 0.3s; }
-        .menu-items li:hover { color: #3b82f6; }
-        .menu-items i { margin-left: 10px; width: 20px; }
+        #sidebar.active { right: 0; }
+        .sidebar-content h3 { border-bottom: 2px solid #3b82f6; padding-bottom: 10px; margin-bottom: 20px; }
+        .menu-items { list-style: none; padding: 0; }
+        .menu-items li { padding: 15px 0; border-bottom: 1px solid #1f2937; cursor: pointer; }
+        
+        /* ضبط السلايدر */
+        .slider-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        .slides {
+            display: flex;
+            transition: transform 0.6s ease-in-out;
+            height: 100%;
+        }
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ضبط البحث */
+        .search-area { margin: 20px 10px; }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 10px;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .search-box input { border: none; outline: none; width: 100%; padding: 0 10px; text-align: right; }
+        
+        .dark-mode { background-color: #0f172a; color: white; }
+        .dark-mode .app-card { background: #1e293b; }
     </style>
 </head>
 <body class="light-mode">
 
-    <div id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <button class="close-btn" onclick="toggleMenu()">×</button>
-        </div>
+    <div id="sidebar">
+        <button onclick="toggleMenu()" style="background:none; border:none; color:white; font-size:25px; cursor:pointer;">×</button>
         <div class="sidebar-content">
-            <h3><i class="fas fa-info-circle"></i> نبذة عن المتجر</h3>
-            <p>مرحباً بك في متجر الفيراري، وجهتك الأولى لتحميل أحدث التطبيقات والألعاب المعدلة بأمان وسرعة عالية. نحن نسعى دائماً لتقديم الأفضل للمستخدم العربي.</p>
-            
+            <h3>CHELAT STORE</h3>
+            <p style="font-size: 14px; color: #9ca3af;">مرحباً بك في متجر الفيراري. وجهتك الأولى لتحميل أحدث التطبيقات والألعاب المعدلة بأمان وسرعة.</p>
             <ul class="menu-items">
-                <li onclick="toggleMenu()"><i class="fas fa-gamepad"></i> قسم الألعاب</li>
-                <li onclick="toggleMenu()"><i class="fas fa-mobile-alt"></i> قسم التطبيقات</li>
+                <li onclick="toggleMenu()"><i class="fas fa-home"></i> الرئيسية</li>
+                <li onclick="toggleMenu()"><i class="fas fa-gamepad"></i> الألعاب</li>
                 <li onclick="toggleMenu()"><i class="fas fa-shield-alt"></i> سياسة الخصوصية</li>
-                <li onclick="toggleMenu()"><i class="fas fa-envelope"></i> اتصل بنا</li>
             </ul>
         </div>
     </div>
 
-    <header>
-        <div class="header-top">
-            <button class="menu-btn" onclick="toggleMenu()">☰</button>
-            <div class="logo">الفيراري <span>STORE</span></div>
-            <button id="themeToggle" class="theme-btn">🌙</button>
-        </div>
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <button onclick="toggleMenu()" style="font-size: 24px; background: none; border: none; cursor: pointer;">☰</button>
+        <div class="logo" style="font-weight: bold; font-size: 1.2rem;">CHELAT <span style="color: #3b82f6;">STORE</span> 🏎️</div>
+        <button id="themeToggle" style="font-size: 20px; background: none; border: none;">🌙</button>
     </header>
 
-    <main>
+    <main style="padding: 10px;">
         <div class="slider-container">
             <div class="slides" id="sliderTrack">
-                <div class="slide" style="background: linear-gradient(45deg, #1e3a8a, #3b82f6); display: flex; align-items: center; justify-content: center; text-align: center;">
-                    <div style="color: white; padding: 20px;">
-                        <h2 style="font-size: 1.4rem; margin-bottom: 10px;">🌙 رمضان مبارك سعيد</h2>
-                        <p style="font-size: 1rem;">بكل الأماني والأفراح على قلوب كل المغاربة خاصة والعالم عامة 🤗❤️</p>
+                <div class="slide" style="background: linear-gradient(45deg, #1e3a8a, #3b82f6); color: white; text-align: center; padding: 20px;">
+                    <div>
+                        <h3>🌙 رمضان مبارك سعيد</h3>
+                        <p>بكل الأماني والأفراح على قلوب كل المغاربة خاصة والعالم عامة 🤗❤️</p>
                     </div>
                 </div>
                 <div class="slide">
-                    <img src="https://الصورة_الخاصة_بتطبيق_تختاروه" alt="App 1">
+                    <img src="https://via.placeholder.com/800x400/000000/FFFFFF?text=CHELAT+STORE" alt="Slide 2">
                 </div>
             </div>
         </div>
 
         <div class="search-area">
             <div class="search-box">
-                <i class="fas fa-search"></i>
+                <i class="fas fa-search" style="color: #6b7280;"></i>
                 <input type="text" id="searchInput" placeholder="ابحث عن تطبيقك المفضل..." onkeyup="smartSearch()">
             </div>
         </div>
 
-        <div class="section-title">الأكثر تحميلاً 🔥</div>
+        <div style="padding: 10px; font-weight: bold;">الأكثر تحميلاً 🔥</div>
         
-        <div class="apps-grid" id="appsGrid">
-            <div class="app-card" data-name="فيسبوك facebook">
-                <div class="app-icon">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook">
-                </div>
-                <div class="app-info">
-                    <h4>Facebook</h4>
-                    <p>تواصل مع العالم</p>
-                </div>
-                <button class="download-btn" onclick="window.location.href='https://google.com'">تحميل</button>
+        <div class="apps-grid" id="appsGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px;">
+            <div class="app-card" data-name="فيسبوك facebook" style="display: flex; flex-direction: column; align-items: center; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" width="50" style="margin-bottom: 5px;">
+                <span style="font-size: 12px; font-weight: bold;">Facebook</span>
+                <button class="download-btn" style="background: #3b82f6; color: white; border: none; padding: 5px 15px; border-radius: 5px; margin-top: 5px; font-size: 10px;">تحميل</button>
             </div>
             </div>
     </main>
 
     <script>
-        // دالة القائمة الجانبية
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('active');
         }
 
-        // دالة البحث الذكي (Live Search)
         function smartSearch() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let appCards = document.getElementsByClassName('app-card');
-
             for (let i = 0; i < appCards.length; i++) {
-                let appName = appCards[i].getAttribute('data-name').toLowerCase();
-                if (appName.includes(input)) {
-                    appCards[i].style.display = "flex";
-                } else {
-                    appCards[i].style.display = "none";
-                }
+                let name = appCards[i].getAttribute('data-name').toLowerCase();
+                appCards[i].style.display = name.includes(input) ? "flex" : "none";
             }
         }
 
-        // دالة السلايدر التلقائي (من اليمين لليسار)
         let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
         function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            document.getElementById('sliderTrack').style.transform = `translateX(${currentSlide * 100}%)`;
+            const track = document.getElementById('sliderTrack');
+            const slidesCount = document.querySelectorAll('.slide').length;
+            currentSlide = (currentSlide + 1) % slidesCount;
+            track.style.transform = `translateX(${currentSlide * 100}%)`;
         }
         setInterval(nextSlide, 4000);
 
-        // تبديل الوضع الليلي
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
+        document.getElementById('themeToggle').addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
-            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         });
     </script>
 </body>
