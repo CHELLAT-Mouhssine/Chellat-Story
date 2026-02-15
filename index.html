@@ -4,11 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHELAT STORE | متجر الفيراري</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* إصلاح التداخل وضبط القائمة الجانبية */
-        #sidebar {
+        :root {
+            --primary-color: #3b82f6;
+            --bg-light: #f3f4f6;
+            --bg-dark: #0f172a;
+            --card-light: #ffffff;
+            --card-dark: #1e293b;
+            --text-light: #1f2937;
+            --text-dark: #f3f4f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background-color: var(--bg-light); color: var(--text-light); transition: 0.3s; }
+        body.dark-mode { background-color: var(--bg-dark); color: var(--text-dark); }
+
+        /* القائمة الجانبية المحسنة */
+        .sidebar {
             position: fixed;
             top: 0;
             right: -280px;
@@ -16,134 +30,254 @@
             height: 100%;
             background: #111827;
             z-index: 1000;
-            transition: 0.4s;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            transition: 0.4s ease-in-out;
             padding: 20px;
             color: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
         }
-        #sidebar.active { right: 0; }
-        .sidebar-content h3 { border-bottom: 2px solid #3b82f6; padding-bottom: 10px; margin-bottom: 20px; }
-        .menu-items { list-style: none; padding: 0; }
-        .menu-items li { padding: 15px 0; border-bottom: 1px solid #1f2937; cursor: pointer; }
-        
-        /* ضبط السلايدر */
-        .slider-container {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-            border-radius: 15px;
-            margin: 15px 0;
-            position: relative;
-        }
-        .slides {
-            display: flex;
-            transition: transform 0.6s ease-in-out;
-            height: 100%;
-        }
-        .slide {
-            min-width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .slide img { width: 100%; height: 100%; object-fit: cover; }
+        .sidebar.active { right: 0; }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .sidebar-content h3 { color: var(--primary-color); margin-bottom: 10px; border-bottom: 1px solid #374151; padding-bottom: 10px; }
+        .sidebar-content p { font-size: 0.9rem; line-height: 1.6; color: #9ca3af; margin-bottom: 20px; }
+        .menu-items { list-style: none; }
+        .menu-items li { padding: 15px 0; border-bottom: 1px solid #1f2937; cursor: pointer; display: flex; align-items: center; }
+        .menu-items li i { margin-left: 15px; color: var(--primary-color); }
 
-        /* ضبط البحث */
-        .search-area { margin: 20px 10px; }
-        .search-box {
+        /* الهيدر */
+        header {
+            background: var(--card-light);
+            padding: 15px 20px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            background: #fff;
-            padding: 10px;
-            border-radius: 25px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .search-box input { border: none; outline: none; width: 100%; padding: 0 10px; text-align: right; }
-        
-        .dark-mode { background-color: #0f172a; color: white; }
-        .dark-mode .app-card { background: #1e293b; }
+        body.dark-mode header { background: var(--card-dark); }
+        .logo { font-size: 1.4rem; font-weight: bold; letter-spacing: 1px; }
+        .logo span { color: var(--primary-color); }
+
+        /* السلايدر المطور */
+        .slider-container {
+            margin: 15px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            height: 220px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .slides { display: flex; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); height: 100%; width: 100%; }
+        .slide { min-width: 100%; height: 100%; position: relative; }
+        .slide img, .slide video { width: 100%; height: 100%; object-fit: cover; }
+        .slide-overlay {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        /* البحث الذكي */
+        .search-area { padding: 10px 20px; }
+        .search-box {
+            background: var(--card-light);
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        body.dark-mode .search-box { background: var(--card-dark); }
+        .search-box input {
+            border: none;
+            outline: none;
+            background: none;
+            width: 100%;
+            padding: 0 15px;
+            color: inherit;
+            font-size: 1rem;
+            text-align: right;
+        }
+
+        /* شبكة التطبيقات */
+        .section-title { padding: 20px 20px 10px; font-weight: bold; font-size: 1.2rem; }
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 15px;
+        }
+        .app-card {
+            background: var(--card-light);
+            border-radius: 18px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        body.dark-mode .app-card { background: var(--card-dark); }
+        .app-card img { width: 65px; height: 65px; border-radius: 14px; margin-bottom: 10px; object-fit: cover; }
+        .app-card h4 { font-size: 0.85rem; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        .download-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body class="light-mode">
 
-    <div id="sidebar">
-        <button onclick="toggleMenu()" style="background:none; border:none; color:white; font-size:25px; cursor:pointer;">×</button>
-        <div class="sidebar-content">
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
             <h3>CHELAT STORE</h3>
-            <p style="font-size: 14px; color: #9ca3af;">مرحباً بك في متجر الفيراري. وجهتك الأولى لتحميل أحدث التطبيقات والألعاب المعدلة بأمان وسرعة.</p>
+            <button onclick="toggleMenu()" style="background:none; border:none; color:white; font-size:30px;">×</button>
+        </div>
+        <div class="sidebar-content">
+            <h3>من نحن</h3>
+            <p>مرحباً بك في متجر الفيراري، رفيقك الموثوق لتحميل أفضل وأحدث التطبيقات والألعاب بكل سهولة وأمان.</p>
             <ul class="menu-items">
                 <li onclick="toggleMenu()"><i class="fas fa-home"></i> الرئيسية</li>
                 <li onclick="toggleMenu()"><i class="fas fa-gamepad"></i> الألعاب</li>
+                <li onclick="toggleMenu()"><i class="fas fa-book"></i> التطبيقات الإسلامية</li>
                 <li onclick="toggleMenu()"><i class="fas fa-shield-alt"></i> سياسة الخصوصية</li>
             </ul>
         </div>
     </div>
 
-    <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-        <button onclick="toggleMenu()" style="font-size: 24px; background: none; border: none; cursor: pointer;">☰</button>
-        <div class="logo" style="font-weight: bold; font-size: 1.2rem;">CHELAT <span style="color: #3b82f6;">STORE</span> 🏎️</div>
-        <button id="themeToggle" style="font-size: 20px; background: none; border: none;">🌙</button>
+    <header>
+        <button onclick="toggleMenu()" style="background:none; border:none; font-size:24px; cursor:pointer; color:inherit;">☰</button>
+        <div class="logo">CHELAT <span>STORE</span> 🏎️</div>
+        <button id="themeToggle" style="background:none; border:none; font-size:22px; cursor:pointer;">🌙</button>
     </header>
 
-    <main style="padding: 10px;">
+    <main>
         <div class="slider-container">
             <div class="slides" id="sliderTrack">
-                <div class="slide" style="background: linear-gradient(45deg, #1e3a8a, #3b82f6); color: white; text-align: center; padding: 20px;">
-                    <div>
-                        <h3>🌙 رمضان مبارك سعيد</h3>
+                <div class="slide" style="background: linear-gradient(45deg, #1e3a8a, #3b82f6);">
+                    <div class="slide-overlay">
+                        <h2>🌙 رمضان مبارك سعيد</h2>
                         <p>بكل الأماني والأفراح على قلوب كل المغاربة خاصة والعالم عامة 🤗❤️</p>
                     </div>
                 </div>
                 <div class="slide">
-                    <img src="https://via.placeholder.com/800x400/000000/FFFFFF?text=CHELAT+STORE" alt="Slide 2">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/a/ad/Snapchat_logo.svg" style="background: #fffc00; object-fit: contain;">
+                </div>
+                <div class="slide">
+                    <video autoplay muted loop playsinline><source src="https://v1.padicdn.com/uploads/videos/2024/02/promo.mp4" type="video/mp4"></video>
                 </div>
             </div>
         </div>
 
         <div class="search-area">
             <div class="search-box">
-                <i class="fas fa-search" style="color: #6b7280;"></i>
-                <input type="text" id="searchInput" placeholder="ابحث عن تطبيقك المفضل..." onkeyup="smartSearch()">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="ابحث عن تطبيق أو لعبة..." onkeyup="smartSearch()">
             </div>
         </div>
 
-        <div style="padding: 10px; font-weight: bold;">الأكثر تحميلاً 🔥</div>
+        <div class="section-title">جميع التطبيقات 🔥</div>
         
-        <div class="apps-grid" id="appsGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px;">
-            <div class="app-card" data-name="فيسبوك facebook" style="display: flex; flex-direction: column; align-items: center; background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" width="50" style="margin-bottom: 5px;">
-                <span style="font-size: 12px; font-weight: bold;">Facebook</span>
-                <button class="download-btn" style="background: #3b82f6; color: white; border: none; padding: 5px 15px; border-radius: 5px; margin-top: 5px; font-size: 10px;">تحميل</button>
+        <div class="apps-grid" id="appsGrid">
+            <div class="app-card" data-name="فيسبوك facebook">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook">
+                <h4>Facebook</h4>
+                <button class="download-btn" onclick="window.location.href='https://google.com'">تحميل</button>
             </div>
+
+            <div class="app-card" data-name="واتساب whatsapp">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                <h4>WhatsApp</h4>
+                <button class="download-btn" onclick="window.location.href='https://google.com'">تحميل</button>
             </div>
+
+            <div class="app-card" data-name="بينترست pinterest">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png" alt="Pinterest">
+                <h4>Pinterest</h4>
+                <button class="download-btn" onclick="window.location.href='https://google.com'">تحميل</button>
+            </div>
+
+            <div class="app-card" data-name="لينكد ان linkedin">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+                <h4>LinkedIn</h4>
+                <button class="download-btn" onclick="window.location.href='https://google.com'">تحميل</button>
+            </div>
+
+            <div class="app-card" data-name="ختمة khatmah">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/7e/34/0d/7e340d21-f67a-0205-0909-7e5d9962590f/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg" alt="Khatmah">
+                <h4>ختمة</h4>
+                <button class="download-btn" onclick="window.location.href='https://google.com'">تحميل</button>
+            </div>
+
+            <div class="app-card" data-name="آيات ayat">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple122/v4/28/70/4e/28704e6c-799b-4279-d65d-2b476f57f5c5/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg" alt="Ayat">
+                <h4>آيات</h4>
+                <button class="download-btn" onclick="window.location.href='https://google.com'">تحميل</button>
+            </div>
+
+            <div class="app-card" data-name="صب واي subway surfers">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/71/f6/b7/71f6b761-0036-7c06-69d8-c71171804c8a/AppIcon-0-0-1x_U007emarketing-0-0-0-10-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg" alt="Subway Surfers">
+                <h4>Subway Surfers</h4>
+                <button class="download-btn" onclick="window.location.href='https://google.com'">تحميل</button>
+            </div>
+
+            <div class="app-card" data-name="فري فاير free fire">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/64/0c/33/640c3330-366f-b2a8-f542-a1f4961d154d/AppIcon-0-0-1x_U007emarketing-0-0-0-10-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg" alt="Free Fire">
+                <h4>Free Fire</h4>
+                <button class="download-btn" onclick="window.location.href='https://google.com'">تحميل</button>
+            </div>
+        </div>
     </main>
 
     <script>
+        // دالة القائمة
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('active');
         }
 
+        // دالة البحث الذكي (Live Search)
         function smartSearch() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let appCards = document.getElementsByClassName('app-card');
             for (let i = 0; i < appCards.length; i++) {
                 let name = appCards[i].getAttribute('data-name').toLowerCase();
-                appCards[i].style.display = name.includes(input) ? "flex" : "none";
+                if (name.includes(input)) {
+                    appCards[i].style.display = "flex";
+                } else {
+                    appCards[i].style.display = "none";
+                }
             }
         }
 
+        // دالة السلايدر التلقائي
         let currentSlide = 0;
-        function nextSlide() {
-            const track = document.getElementById('sliderTrack');
-            const slidesCount = document.querySelectorAll('.slide').length;
+        const track = document.getElementById('sliderTrack');
+        const slidesCount = document.querySelectorAll('.slide').length;
+        
+        function moveSlide() {
             currentSlide = (currentSlide + 1) % slidesCount;
+            // التحريك من اليمين لليسار
             track.style.transform = `translateX(${currentSlide * 100}%)`;
         }
-        setInterval(nextSlide, 4000);
+        setInterval(moveSlide, 4000);
 
+        // تبديل الوضع الليلي
         document.getElementById('themeToggle').addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
+            document.getElementById('themeToggle').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         });
     </script>
 </body>
